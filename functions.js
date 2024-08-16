@@ -33,8 +33,6 @@ function buildMessage({
 
   const messageBlocks = [];
   for (const [user, tickets] of completeTicketsMap.entries()) {
-    console.log(user, tickets);
-    console.log(jiraSlackUserMap[user]);
     messageBlocks.push({
       type: 'section',
       text: {
