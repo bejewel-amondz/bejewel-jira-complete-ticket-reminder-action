@@ -153,7 +153,7 @@ function validateCompleteTicketsOverOneWeek(ticketInfos) {
       ticketInfo.fields.statuscategorychangedate,
     );
     const diff = now.getTime() - statusCategoryChangeDate.getTime();
-    const diffDays = (diff / 60) * 60 * 1000 * 24;
+    const diffDays = Math.floor(diff / (1000 * 60 * 60 * 24));
 
     if (ticketInfo.fields.status.name === '출시 완료' && diffDays >= 7) {
       if (completeTicketsMap.has(ticketInfo.fields.reporter.displayName)) {
