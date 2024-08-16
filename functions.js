@@ -145,7 +145,7 @@ function validateCompleteTicketsOverOneWeek(ticketInfos) {
   const now = new Date();
   const completeTicketsMap = new Map();
 
-  // 티켓의 상태가 출시 완료 상태이고, 상태 변경일이 일주일 이상 지났을 경우 Map 에 추가 (reporter emailAddress 를 키로 사용)
+  // 티켓의 상태가 출시 완료 상태이고, 상태 변경일이 일주일 이상 지났을 경우 Map 에 추가 (reporter displayName 을 키로 사용)
   for (const ticketInfo of ticketInfos) {
     const statusCategoryChangeDate = new Date(
       ticketInfo.fields.statuscategorychangedate,
@@ -154,12 +154,12 @@ function validateCompleteTicketsOverOneWeek(ticketInfos) {
     const diffDays = Math.floor(diff / (1000 * 60 * 60 * 24));
 
     if (ticketInfo.fields.status.name === '출시 완료' && diffDays >= 7) {
-      if (completeTicketsMap.has(ticketInfo.fields.reporter.emailAddress)) {
+      if (completeTicketsMap.has(ticketInfo.fields.reporter.displayName)) {
         completeTicketsMap
-          .get(ticketInfo.fields.reporter.emailAddress)
+          .get(ticketInfo.fields.reporter.displayName)
           .push(ticketInfo.key);
       } else {
-        completeTicketsMap.set(ticketInfo.fields.reporter.emailAddress, [
+        completeTicketsMap.set(ticketInfo.fields.reporter.displayName, [
           ticketInfo.key,
         ]);
       }
