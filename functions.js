@@ -169,8 +169,19 @@ function validateCompleteTicketsOverOneWeek(ticketInfos) {
   return completeTicketsMap;
 }
 
+function isSkipNotification(completeTicketsMap, errorTickets) {
+  for (const [user, tickets] of completeTicketsMap.entries()) {
+    if (tickets.length > 0) {
+      return false;
+    }
+  }
+
+  return !(errorTickets !== null && errorTickets !== undefined && errorTickets.length > 0);
+}
+
 module.exports = {
   getCompleteTicketsOverOneWeek,
   buildMessage,
   userMapStringToObject,
+  isSkipNotification,
 };
