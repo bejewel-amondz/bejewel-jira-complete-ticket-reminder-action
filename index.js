@@ -6,6 +6,7 @@ const {
   getCompleteTicketsOverOneWeek,
   buildMessage,
   userMapStringToObject,
+  isSkipNotification,
 } = require('./functions');
 
 const { GITHUB_TOKEN } = process.env;
@@ -47,6 +48,13 @@ async function main() {
     const jiraSlackUserMap = userMapStringToObject(jiraSlackUserMapString);
 
     const webhook = new IncomingWebhook(webhookUrl);
+
+    if(isSkipNotification(
+        completeTicketsMap,
+        errorTickets,
+    )) {
+      return;
+    }
 
     const message = buildMessage({
       completeTicketsMap,
