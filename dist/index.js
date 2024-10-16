@@ -175,10 +175,21 @@ function validateCompleteTicketsOverOneWeek(ticketInfos) {
   return completeTicketsMap;
 }
 
+function isSkipNotification(completeTicketsMap, errorTickets) {
+  for (const [user, tickets] of completeTicketsMap.entries()) {
+    if (tickets.length > 0) {
+      return false;
+    }
+  }
+
+  return !(errorTickets !== null && errorTickets !== undefined && errorTickets.length > 0);
+}
+
 module.exports = {
   getCompleteTicketsOverOneWeek,
   buildMessage,
   userMapStringToObject,
+  isSkipNotification,
 };
 
 
@@ -35862,6 +35873,7 @@ const {
   getCompleteTicketsOverOneWeek,
   buildMessage,
   userMapStringToObject,
+  isSkipNotification,
 } = __nccwpck_require__(3505);
 
 const { GITHUB_TOKEN } = process.env;
@@ -35903,6 +35915,13 @@ async function main() {
     const jiraSlackUserMap = userMapStringToObject(jiraSlackUserMapString);
 
     const webhook = new IncomingWebhook(webhookUrl);
+
+    if(isSkipNotification(
+        completeTicketsMap,
+        errorTickets,
+    )) {
+      return;
+    }
 
     const message = buildMessage({
       completeTicketsMap,
