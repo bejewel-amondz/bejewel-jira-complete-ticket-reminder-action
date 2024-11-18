@@ -153,10 +153,10 @@ function validateCompleteTicketsOverOneWeek(ticketInfos) {
 
   // 티켓의 상태가 출시 완료 상태이고, 상태 변경일이 일주일 이상 지났을 경우 Map 에 추가 (reporter displayName 을 키로 사용)
   for (const ticketInfo of ticketInfos) {
-    const statusCategoryChangeDate = new Date(
-      ticketInfo.fields.statuscategorychangedate,
+    const baseDate = new Date(
+      ticketInfo.fields.updated,
     );
-    const diff = now.getTime() - statusCategoryChangeDate.getTime();
+    const diff = now.getTime() - baseDate.getTime();
     const diffDays = Math.floor(diff / (1000 * 60 * 60 * 24));
 
     if (ticketInfo.fields.status.name === '출시 완료' && diffDays >= 7) {
